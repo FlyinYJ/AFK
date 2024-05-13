@@ -12,7 +12,7 @@ def AFK(duration=1, verbose=None):
         duration (int, optional): Total length of jiggering. Defaults to 1 min.
         verbose (_type_, optional): debug mode. Defaults to None.
     """
-    duration = int(duration)  # * 60
+    duration = int(duration) * 60
     with alive_bar(duration) as bar:
         while duration > 0:
             # print(f"time left: {duration}s")
@@ -25,6 +25,7 @@ def AFK(duration=1, verbose=None):
 
             if verbose:
                 print(f"moving {move_x}px")
+
             pg.moveRel(move_x, move_x)
 
             progress = sleep_duration
