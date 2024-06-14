@@ -2,4 +2,12 @@ import sys
 
 from .AFK import AFK
 
-AFK(sys.argv[1])
+duration = sys.argv[1]
+
+
+print("Press Ctrl+C to stop")
+
+try:
+    AFK(duration=duration)
+except KeyboardInterrupt:
+    print("Stopped by user")

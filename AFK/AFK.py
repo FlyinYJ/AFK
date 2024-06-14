@@ -2,7 +2,7 @@ import random
 import time
 
 import pyautogui as pg
-from alive_progress import alive_bar
+from alive_progress import alive_bar, config_handler
 
 
 def AFK(duration=1, verbose=None):
@@ -13,26 +13,30 @@ def AFK(duration=1, verbose=None):
         verbose (_type_, optional): debug mode. Defaults to None.
     """
     duration = int(duration) * 60
-    with alive_bar(duration) as bar:
-        try:
-            print("Press Ctrl+C to stop")
-            while duration > 0:
-                # print(f"time left: {duration}s")
-                move_x = random.sample(range(-3, 3), 1)[0]
-                sleep_duration = random.sample(range(1, 10), 1)[0]
-                if sleep_duration > duration:
-                    sleep_duration = duration
 
-                time.sleep(sleep_duration)
+    config_handler.set_global(
+        bar="fish",
+        spinner="fish",
+        stats=False,
+    )
+    with alive_bar(
+        duration,
+    ) as bar:
+        while duration > 0:
+            # print(f"time left: {duration}s")
+            move_x = random.sample(range(-3, 3), 1)[0]
+            sleep_duration = random.sample(range(1, 10), 1)[0]
+            if sleep_duration > duration:
+                sleep_duration = duration
 
-                if verbose:
-                    print(f"moving {move_x}px")
+            time.sleep(sleep_duration)
 
-                pg.moveRel(move_x, move_x)
+            if verbose:
+                print(f"moving {move_x}px")
 
-                progress = sleep_duration
-                duration -= progress
-                bar(progress)
+            pg.moveRel(move_x, move_x)
 
-        except KeyboardInterrupt:
-            print("Stopped by user")
+            progress = sleep_duration
+            duration -= progress
+
+            bar(progress)
