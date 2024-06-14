@@ -2,7 +2,7 @@ import random
 import time
 
 import pyautogui as pg
-from alive_progress import alive_bar
+from alive_progress import alive_bar, config_handler
 
 
 def AFK(duration=1, verbose=None):
@@ -13,7 +13,15 @@ def AFK(duration=1, verbose=None):
         verbose (_type_, optional): debug mode. Defaults to None.
     """
     duration = int(duration) * 60
-    with alive_bar(duration) as bar:
+
+    config_handler.set_global(
+        bar="fish",
+        spinner="fish",
+        stats=False,
+    )
+    with alive_bar(
+        duration,
+    ) as bar:
         while duration > 0:
             # print(f"time left: {duration}s")
             move_x = random.sample(range(-3, 3), 1)[0]
@@ -30,4 +38,5 @@ def AFK(duration=1, verbose=None):
 
             progress = sleep_duration
             duration -= progress
+
             bar(progress)
